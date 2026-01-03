@@ -1,9 +1,7 @@
-// The Swift Programming Language
-// https://docs.swift.org/swift-book
+import Foundation
 
-@main
-struct Expense_Tracker_Project {
-    static func main() {
-        print("Hello, world!")
-    }
-}
+print("=== Expense Tracker Manual Test Runner ===")
+
+ManualTests.runExpenseSummaryTests()
+
+print("=== Tests Completed ===")

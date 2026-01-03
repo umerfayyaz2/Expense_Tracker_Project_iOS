@@ -1,0 +1,24 @@
+{
+    "configurations": [
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:Expense_Tracker_Project}",
+            "name": "Debug ExpenseTrackerApp",
+            "target": "ExpenseTrackerApp",
+            "configuration": "debug",
+            "preLaunchTask": "swift: Build Debug ExpenseTrackerApp"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:Expense_Tracker_Project}",
+            "name": "Release ExpenseTrackerApp",
+            "target": "ExpenseTrackerApp",
+            "configuration": "release",
+            "preLaunchTask": "swift: Build Release ExpenseTrackerApp"
+        }
+    ]
+}
