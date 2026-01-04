@@ -1,27 +1,25 @@
-/// ViewModel responsible for managing the expense list
-
 import Foundation
 
-final class ExpenseListViewModel {
+public final class ExpenseListViewModel {
 
-    /// All expenses stored in memory (temporary)
-    private(set) var expenses: [Expense] = []
+    private let store: ExpenseStore
+    public private(set) var expenses: [Expense] = []
 
-    /// Adds a new expense to the list with validation
-    @discardableResult
-    func addExpense(
+    // ✅ THIS MUST BE THE ONLY INITIALIZER
+    public init(store: ExpenseStore) {
+        self.store = store
+        self.expenses = store.fetchAll()
+    }
+
+    public func addExpense(
         amount: Decimal,
         category: ExpenseCategory,
         note: String?,
         date: Date
-    ) -> Bool {
+    ) {
+        guard amount > 0 else { return }
 
-        // Validation: amount must be greater than zero
-        guard amount > 0 else {
-            return false
-        }
-
-        let newExpense = Expense(
+        let expense = Expense(
             id: UUID(),
             amount: amount,
             category: category,
@@ -29,18 +27,13 @@ final class ExpenseListViewModel {
             date: date
         )
 
-        expenses.append(newExpense)
-        sortExpensesByDate()
-        return true
-    }
-
-    /// Deletes an expense using its unique ID
-    func deleteExpense(id: UUID) {
-        expenses.removeAll { $0.id == id }
-    }
-
-    /// Sorts expenses by date (latest first)
-    private func sortExpensesByDate() {
+        store.save(expense)
+        expenses = store.fetchAll()
         expenses.sort { $0.date > $1.date }
+    }
+
+    public func deleteExpense(id: UUID) {
+        store.delete(id: id)
+        expenses = store.fetchAll()
     }
 }

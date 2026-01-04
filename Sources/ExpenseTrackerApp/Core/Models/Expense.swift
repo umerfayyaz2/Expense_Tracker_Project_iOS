@@ -1,21 +1,24 @@
-/// Represents a single expense entry
-
 import Foundation
 
-struct Expense {
+public struct Expense: Identifiable {
 
-    /// Unique identifier for the expense
-    let id: UUID
+    public let id: UUID
+    public let amount: Decimal
+    public let category: ExpenseCategory
+    public let note: String?
+    public let date: Date
 
-    /// Amount spent (Decimal for currency accuracy)
-    let amount: Decimal
-
-    /// Category of the expense
-    let category: ExpenseCategory
-
-    /// Optional note entered by the user
-    let note: String?
-
-    /// Date when the expense occurred
-    let date: Date
+    public init(
+        id: UUID,
+        amount: Decimal,
+        category: ExpenseCategory,
+        note: String?,
+        date: Date
+    ) {
+        self.id = id
+        self.amount = amount
+        self.category = category
+        self.note = note
+        self.date = date
+    }
 }

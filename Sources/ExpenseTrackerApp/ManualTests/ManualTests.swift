@@ -1,49 +1,69 @@
-/// Manual test runner for Expense logic
 import Foundation
 
 struct ManualTests {
 
+    // MARK: - Expense Summary Tests
     static func runExpenseSummaryTests() {
 
-        let expenses = [
-            Expense(
-                id: UUID(),
-                amount: 500,
-                category: .food,
-                note: "Lunch",
-                date: makeDate(day: 5, month: 1, year: 2026)
-            ),
-            Expense(
-                id: UUID(),
-                amount: 1000,
-                category: .transport,
-                note: "Taxi",
-                date: makeDate(day: 10, month: 1, year: 2026)
-            ),
-            Expense(
-                id: UUID(),
-                amount: 300,
-                category: .food,
-                note: nil,
-                date: makeDate(day: 2, month: 2, year: 2026)
-            ),
-        ]
+        let store = InMemoryExpenseStore()
+        let listVM = ExpenseListViewModel(store: store)
 
-        let summaryVM = ExpenseSummaryViewModel(expenses: expenses)
+        // Add sample expenses
+        listVM.addExpense(
+            amount: 1000,
+            category: ExpenseCategory.food,
+            note: "Groceries",
+            date: Date()
+        )
 
-        let januaryTotal = summaryVM.totalFor(month: 1, year: 2026)
-        print("January Total:", januaryTotal)
+        listVM.addExpense(
+            amount: 2000,
+            category: ExpenseCategory.transport,
+            note: "Fuel",
+            date: Date()
+        )
 
-        let januaryBreakdown = summaryVM.categoryBreakdown(month: 1, year: 2026)
-        print("January Breakdown:", januaryBreakdown)
+        let summaryVM = ExpenseSummaryViewModel(expenses: listVM.expenses)
+
+        // January = 1, Current year
+        let month = Calendar.current.component(.month, from: Date())
+        let year = Calendar.current.component(.year, from: Date())
+
+        let breakdown = summaryVM.categoryBreakdown(month: month, year: year)
+
+        let total = breakdown.values.reduce(0, +)
+
+        print("Monthly Total:", total)
+        print("Category Breakdown:", breakdown)
     }
 
-    /// Helper to create consistent test dates
-    private static func makeDate(day: Int, month: Int, year: Int) -> Date {
-        var components = DateComponents()
-        components.day = day
-        components.month = month
-        components.year = year
-        return Calendar.current.date(from: components)!
+    // MARK: - Expense List Screen Simulation
+    static func simulateExpenseListScreen() {
+
+        let store = InMemoryExpenseStore()
+        let viewModel = ExpenseListViewModel(store: store)
+
+        print("=== Expense List Screen Loaded ===")
+        print("Expenses:", viewModel.expenses.count)
+
+        print("\nUser taps Add Expense")
+
+        viewModel.addExpense(
+            amount: 1200,
+            category: ExpenseCategory.food,
+            note: "Dinner",
+            date: Date()
+        )
+
+        print("Expense added.")
+        print("Expenses:", viewModel.expenses.count)
+
+        print("\nUser deletes first expense")
+
+        if let first = viewModel.expenses.first {
+            viewModel.deleteExpense(id: first.id)
+        }
+
+        print("Expenses after delete:", viewModel.expenses.count)
     }
 }
