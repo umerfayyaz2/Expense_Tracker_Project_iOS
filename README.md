@@ -191,35 +191,27 @@ app.run()
 
 ```bash
 swift run --disable-index-store
-Expected Output
-Interactive menu
 
-User input prompts
-
-Live expense updates
-
-Accurate monthly summaries
+### Expected Output
+- Interactive menu
+- User input prompts
+- Live expense updates
+- Accurate monthly summaries
 
 This confirms the project works end-to-end.
 
-🧪 Testing Strategy
+### 🧪 Testing Strategy
 No separate manual test files
 
 Logic validated through:
 
-Console interaction
-
-ViewModel state changes
-
-Real execution flow
-
-This approach ensures:
-
-Practical validation
-
-Business logic reliability
-
-Clear execution trace
+- Console interaction
+- ViewModel state changes
+- Real execution flow
+- This approach ensures:
+- Practical validation
+- Business logic reliability
+- Clear execution trace
 
 📱 SwiftUI Views (Design-Only)
 SwiftUI views are included under conditional compilation:
@@ -227,41 +219,25 @@ SwiftUI views are included under conditional compilation:
 swift
 Copy code
 #if canImport(SwiftUI)
+
 They demonstrate:
-
-Proper state binding
-
-ViewModel integration
-
-iOS-ready UI structure
+- Proper state binding
+- ViewModel integration
+- iOS-ready UI structure
 
 These views will run unchanged on macOS or iOS.
 
-🎯 Key Engineering Decisions
+### 🎯 Key Engineering Decisions
 Architecture-first development
 
-Platform-independent business logic
+- Platform-independent business logic
+- Protocol-based persistence
+- Dependency injection via closures
+- Decimal-safe financial calculations
+- Feature-based modular structure
 
-Protocol-based persistence
 
-Dependency injection via closures
-
-Decimal-safe financial calculations
-
-Feature-based modular structure
-
-🚀 Future Enhancements
-Core Data persistence (already designed)
-
-Real SwiftUI execution on macOS / iOS
-
-Charts & analytics
-
-Exportable reports
-
-Optional cloud sync
-
-👤 Author
+### 👤 Author
 Umer Fayyaz
 BS-IT (6th Semester)
 Swift • MVVM • Architecture-Driven Development

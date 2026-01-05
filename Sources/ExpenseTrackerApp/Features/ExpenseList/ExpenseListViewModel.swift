@@ -5,7 +5,6 @@ public final class ExpenseListViewModel {
     private let store: ExpenseStore
     public private(set) var expenses: [Expense] = []
 
-    // ✅ THIS MUST BE THE ONLY INITIALIZER
     public init(store: ExpenseStore) {
         self.store = store
         self.expenses = store.fetchAll()
