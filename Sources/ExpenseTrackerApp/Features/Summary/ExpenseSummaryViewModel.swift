@@ -1,41 +1,39 @@
-/// ViewModel responsible for calculating expense summaries
 import Foundation
 
 final class ExpenseSummaryViewModel {
 
-    /// All expenses used for summary calculations
-    private let expenses: [Expense]
+    /// Closure that provides latest expenses
+    private let expenseProvider: () -> [Expense]
 
-    init(expenses: [Expense]) {
-        self.expenses = expenses
+    init(expenseProvider: @escaping () -> [Expense]) {
+        self.expenseProvider = expenseProvider
     }
 
-    /// Calculates total expense amount for a given month
+    private var expenses: [Expense] {
+        expenseProvider()
+    }
+
     func totalFor(month: Int, year: Int) -> Decimal {
-        let filteredExpenses = expenses.filter { expense in
-            let components = Calendar.current.dateComponents([.month, .year], from: expense.date)
+        let filtered = expenses.filter {
+            let components = Calendar.current.dateComponents([.month, .year], from: $0.date)
             return components.month == month && components.year == year
         }
 
-        return filteredExpenses.reduce(Decimal(0)) { result, expense in
-            result + expense.amount
-        }
+        return filtered.reduce(Decimal(0)) { $0 + $1.amount }
     }
 
-    /// Calculates total expense per category for a given month
     func categoryBreakdown(month: Int, year: Int) -> [ExpenseCategory: Decimal] {
+        var result: [ExpenseCategory: Decimal] = [:]
 
-        var breakdown: [ExpenseCategory: Decimal] = [:]
-
-        let filteredExpenses = expenses.filter { expense in
-            let components = Calendar.current.dateComponents([.month, .year], from: expense.date)
+        let filtered = expenses.filter {
+            let components = Calendar.current.dateComponents([.month, .year], from: $0.date)
             return components.month == month && components.year == year
         }
 
-        for expense in filteredExpenses {
-            breakdown[expense.category, default: 0] += expense.amount
+        for expense in filtered {
+            result[expense.category, default: Decimal(0)] += expense.amount
         }
 
-        return breakdown
+        return result
     }
 }
