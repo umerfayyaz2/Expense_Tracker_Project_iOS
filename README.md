@@ -66,10 +66,9 @@ The project follows **MVVM (Model–View–ViewModel)** with feature-based modul
 ## 📂 Project Structure
 
 ExpenseTrackerApp
-│
 ├── ConsoleUI
 │ ├── ConsoleApp.swift
-│ ├── ConsoleUtils.swift
+│ └── ConsoleUtils.swift
 │
 ├── Core
 │ ├── Models
@@ -90,6 +89,7 @@ ExpenseTrackerApp
 ├── Views
 │ ├── AddExpense
 │ │ └── AddExpenseView.swift
+│ │
 │ └── ExpenseList
 │ └── ExpenseListView.swift
 │
@@ -179,6 +179,7 @@ Since SwiftUI cannot run on Windows, the app includes a **fully interactive cons
 ```swift
 let app = ConsoleApp()
 app.run()
+```
 
 ## ▶️ How to Run the Project
 
@@ -191,6 +192,7 @@ app.run()
 
 ```bash
 swift run --disable-index-store
+```
 
 ### Expected Output
 - Interactive menu
@@ -215,10 +217,9 @@ Logic validated through:
 
 📱 SwiftUI Views (Design-Only)
 SwiftUI views are included under conditional compilation:
-
-swift
-Copy code
+```
 #if canImport(SwiftUI)
+```
 
 They demonstrate:
 - Proper state binding
